@@ -62,13 +62,6 @@ public class Register extends HttpServlet {
 	        String password2 = request.getParameter("password2");
 	        String sex = request.getParameter("sex");
 	        
-//	        int rs1 = stat.executeUpdate("select count(*) from users where username='"+ username+"';");
-//	        System.out.println(rs1);
-//	        if(rs1 != 0){
-//	        	session.setAttribute("alert", "该用户名已被注册，请重新注册！");
-//	        	response.sendRedirect("../register.jsp");
-//	        }
-	        
 	        if(password1.equals(password2)==false){
 	        	session.setAttribute("alert", "两次输入密码不相同，请重新注册！");
 	        	response.sendRedirect("../register.jsp");
@@ -77,7 +70,7 @@ public class Register extends HttpServlet {
 	            String sql = "insert into users(username, password, sex) values('"+username+"','"+password1+"','"+ sex +"');";
 	          int i = stat.executeUpdate(sql);
 	          if(i==1){
-	        	  session.setAttribute("alert", "注册成功，请前往登录页面");
+	        	  session.setAttribute("alert", "注册成功，请登录");
 	        	  response.sendRedirect("../login.jsp");
 	          }
 	          stat.close();
