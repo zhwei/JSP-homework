@@ -23,7 +23,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   <div class="container">
   	<div class="col-md-4" style="float: none; margin: 0 auto;">
-
+	<!-- 注册表单
+	 -->
     <form action="servlet/Register" method="post" class="form">
     	<h1>Register</h1>
     	<hr/>

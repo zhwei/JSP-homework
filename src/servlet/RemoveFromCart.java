@@ -42,7 +42,8 @@ public class RemoveFromCart extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		// 验证是否是管理员
 		response.setContentType("text/html, charset=utf-8");
 		HttpSession session = request.getSession();
 		if((Boolean)session.getAttribute("logged") == null||(Boolean)session.getAttribute("logged") != true){
@@ -54,6 +55,7 @@ public class RemoveFromCart extends HttpServlet {
 		ArrayList<Books> booklist = (ArrayList<Books>)session.getAttribute("cart");
 		String book_id = request.getParameter("id");
 		
+		// 使用循环删除，由于要修改自身数据，不能使用普通循环方式
 		Iterator<Books> bookListIterator = booklist.iterator();
 		while(bookListIterator.hasNext()){  
 		    Books book = bookListIterator.next();  
@@ -62,8 +64,8 @@ public class RemoveFromCart extends HttpServlet {
 		    }  
 		}  
 
-		session.setAttribute("cart", booklist);
-		response.sendRedirect("UserListBook");
+		session.setAttribute("cart", booklist);	// 写入session
+		response.sendRedirect("UserListBook");	// 重定向
 		return;
 	}
 

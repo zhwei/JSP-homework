@@ -28,6 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <hr>
     <%@include file="include/alert.jsp" %>
     <%@include file="include/check_auth_admin.jsp" %>
+    <!-- 创建图书或修改图书信息的表单， 通过if判断修改action，提交路径 -->
     <form action="<c:if test="${ book == null }">servlet/CreateBook</c:if><c:if test="${ book != null }">servlet/UpdateBook?id=${ book.id }</c:if>" method="POST">
     	<p>
     		<label>图书名称</label>
@@ -42,7 +43,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<input name="price" type="text"  value="${ book.price }"/>
     	</p>
     	<p>
-    		<input type="submit" value="提交">
+    		<input type="submit" value="提交">&nbsp;
+    		<a href="#" onclick="location.href=document.referrer;">返回</a>
     	</p>
     </form>
   </body>

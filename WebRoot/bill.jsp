@@ -17,9 +17,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 
   </head>
   
@@ -28,6 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <hr/>
   <%@include file="include/alert.jsp" %>
   <%@include file="include/check_auth_user.jsp" %>
+    <!-- 通过循环显示购物车中所有图书  -->
   <c:forEach var="book" items="${cart}">
 	 <li>			
   			${ book.name }

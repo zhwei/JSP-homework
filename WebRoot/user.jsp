@@ -22,6 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <h1>用户界面</h1>
+    <!-- 普通用户登录后的首页 -->
     <a href="servlet/Logout">注销</a>
     <hr>
     <%@include file="include/alert.jsp" %>

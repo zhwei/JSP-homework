@@ -42,15 +42,14 @@ public class CreateBook extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html,charset=utf-8");
-		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
 		
+		// 判断是否是管理员
+		HttpSession session = request.getSession();
 		if((Boolean)session.getAttribute("admin") == null||(Boolean)session.getAttribute("logged") != true){
   			session.setAttribute("alert", "您没有权限访问该页面！");
   			response.sendRedirect("login.jsp");
   		}
+		// 连接数据库
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -61,6 +60,8 @@ public class CreateBook extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			Statement stat = conn.createStatement();
+			
+			// 获取表单提交的数据写入数据库
 			String name = request.getParameter("name");
 			String author = request.getParameter("author");
 			String price = request.getParameter("price");
@@ -68,7 +69,7 @@ public class CreateBook extends HttpServlet {
 			int i = stat.executeUpdate(sql);
 			if(i == 1){
 				session.setAttribute("alert", "成功添加"+String.valueOf(i)+"本图书！");
-				response.sendRedirect("ListBook");
+				response.sendRedirect("ListBook");	// 冲形象
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

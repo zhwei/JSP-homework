@@ -49,15 +49,15 @@ public class RecordManage extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-HttpSession session = request.getSession();
-		
+		// 验证是否为管理员
+		HttpSession session = request.getSession();
 		if((Boolean)session.getAttribute("admin") == null||(Boolean)session.getAttribute("logged") != true){
   			session.setAttribute("alert", "您没有权限访问该页面！");
   			response.sendRedirect("../login.jsp");
   			return;
   		}
 		
-		response.setContentType("text/html, charset=utf-8");
+		// 连接到数据库
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -70,34 +70,38 @@ HttpSession session = request.getSession();
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			stat = conn.createStatement();
-			
+			// 获取动作
 			String action = request.getParameter("action");
-			if(action==null){
+			if(action==null){		// 如果动作为空则将所有购买记录传递到相关jsp模版
 				String sql = "select id, uid, date from records";
 				ResultSet rs = stat.executeQuery(sql);
-				ArrayList<Record> recordlist = new ArrayList<Record>();
 				
+				ArrayList<Record> recordlist = new ArrayList<Record>();
 				while(rs.next()){
-					Record record = new Record();
+					Record record = new Record();	// -- 实例化Record
 					record.setId(rs.getInt("id"));
-					System.out.println(record.getId());
 					record.setUid(rs.getInt("uid"));
 					record.setDate(rs.getString("date"));
 					
-					recordlist.add(record);
+					recordlist.add(record);	// -- 将该实例添加到购买记录列表
 				}
+				// -- 传递到jsp模版
 				request.setAttribute("recordlist", recordlist);
-			} else if(action!=null&&action.equals("bills")){
+				
+			} else if(action!=null&&action.equals("bills")){	// 如果action为bills，则传递属于该条购买记录的所有条目到jsp模版
+
+				// 通过传递过来的id获取该条购买记录
 				String record_id = request.getParameter("id");
 				String sql1 = "select id, uid, date from records where id='"+record_id+"'";
 				ResultSet rs = stat.executeQuery(sql1);
+				
 				Record record = new Record();
 				while(rs.next()){
 					record.setId(rs.getInt("id"));
 					record.setUid(rs.getInt("uid"));
 					record.setDate(rs.getString("date"));
 				}
-				ArrayList<Bill> billlist = record.getMyBills();
+				ArrayList<Bill> billlist = record.getMyBills();	// 使用类中定义的方法
 				request.setAttribute("billlist", billlist);
 			}
 			request.getRequestDispatcher("../manage_record.jsp").forward(request, response);

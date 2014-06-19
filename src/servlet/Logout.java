@@ -40,7 +40,7 @@ public class Logout extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html,utf-8");
+		// 注销用户时清除session相关信息
 		HttpSession session = request.getSession();
 		if((Boolean)session.getAttribute("logged") != null){
 			session.removeAttribute("logged");

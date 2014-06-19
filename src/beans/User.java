@@ -2,9 +2,9 @@ package beans;
 
 public class User {
 	private Integer id;
-	private String username;
-	private String password;
-	private String sex;
+	private String username;	//用户名
+	private String password;	// 密码
+	private String sex;			// 性别
 	
 	public Integer getId() {
 		return id;

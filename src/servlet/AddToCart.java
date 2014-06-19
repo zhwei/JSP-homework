@@ -47,15 +47,17 @@ public class AddToCart extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html, charset=utf-8");
-		HttpSession session = request.getSession();
+		// 将指定图书添加到购物车
+		
+		HttpSession session = request.getSession();	// 获取session
+		// 判断用户是否登录， 没有登录则重定向到登录界面
 		if((Boolean)session.getAttribute("logged") == null||(Boolean)session.getAttribute("logged") != true){
   			session.setAttribute("alert", "此操作需要登录！");
   			response.sendRedirect("../login.jsp");
   			return;
   		}
 		
+		// 连接到数据库
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -70,20 +72,23 @@ public class AddToCart extends HttpServlet {
 			String sql1 = "select name, author, price from books where id='"+book_id+"'";
 			ResultSet rs = stat.executeQuery(sql1);
 			
-			
+			// 如果session中不存在购物车则创建购物车
 			ArrayList<Books> booklist = new ArrayList<Books>();
 			if(session.getAttribute("cart") != null){
 				booklist = (ArrayList<Books>)session.getAttribute("cart");
 			}
+			
+			// 将指定的图书添加到购物车
 			while(rs.next()){
+				// -- 创建图书实例
 				Books book = new Books();
-				
 				book.setId(Integer.valueOf(book_id));
 				book.setName(rs.getString("name")); 
 				book.setAuthor(rs.getString("author"));
 				book.setPrice(Double.valueOf(rs.getString("price")));
 				book.setCount(1);
 				
+				// -- 判断购物车中是否存在该图书，如果存在则增长数目，不存在就添加到购物车
 				Boolean t = false;
 				for(Books bo: booklist){
 					if(bo.equals(book)){
@@ -91,14 +96,15 @@ public class AddToCart extends HttpServlet {
 						bo.incrCount();
 					}
 				}
-				System.out.println(t);
 				if(t == false){
 					booklist.add(book);
 				}
 			}
 			stat.close();
 			conn.close();
+			// 将购物车图书列表重新写入session
 			session.setAttribute("cart", booklist);
+			// 重定向到所有图书界面
 			response.sendRedirect("UserListBook");
 			return;
 		} catch (SQLException e) {

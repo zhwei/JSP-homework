@@ -35,6 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		</tr>
   	</thead>
   	<tbody>
+  	<!-- 循环打印数据库中所有的图书 -->
   	<c:forEach var="book" items="${booklist}">
 	  	<tr>
   			<td>${ book.id }</td>
@@ -51,7 +52,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </table>
   
   <hr>
+  <c:if test="${cart!=null}">
+  	<h2>购物车</h2>
+ 	<a href="servlet/CloseCart">提交订单</a>
+  </c:if>
   <ul>
+  <!-- 循环打印购物车中所有图书 -->
   <c:forEach var="book" items="${cart}">
 	 <li>			
   			${ book.name }
@@ -63,9 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			<a href="servlet/RemoveFromCart?id=${ book.id }">从购物车删除</a>
      </li>
   	</c:forEach>
-  	<c:if test="${cart!=null}">》
-  		<a href="servlet/CloseCart">提交订单</a>
-  	</c:if>
+  	
   </ul>
   
   </body>

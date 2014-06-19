@@ -57,16 +57,19 @@ public class Register extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			Statement stat = conn.createStatement();
+			
+			// 获取表单数据
 			String username = request.getParameter("username");
 	        String password1 = request.getParameter("password1");
 	        String password2 = request.getParameter("password2");
 	        String sex = request.getParameter("sex");
 	        
+	        // 验证两次输入的密码是否相同
 	        if(password1.equals(password2)==false){
 	        	session.setAttribute("alert", "两次输入密码不相同，请重新注册！");
 	        	response.sendRedirect("../register.jsp");
 	        }
-	        else{
+	        else{	// 通过验证则插入数据库
 	              String sql = "insert into users(username, password, sex) values('"+username+"','"+password1+"','"+ sex +"');";
 		          int i = stat.executeUpdate(sql);
 		          if(i==1){
@@ -78,7 +81,7 @@ public class Register extends HttpServlet {
 	        }
 		} catch (SQLException e) {
 			if(e.getMessage().equals("column username is not unique")){
-				session.setAttribute("alert", "该用户名已被注册，请重新注册！");
+				session.setAttribute("alert", "该用户名已被注册，请重新注册！");	// 通过异常使用户唯一
 				response.sendRedirect("../register.jsp");
 			} 
 		}

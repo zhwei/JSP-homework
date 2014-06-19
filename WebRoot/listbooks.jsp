@@ -37,6 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		</tr>
   	</thead>
   	<tbody>
+  	<!-- 循环打印所有图书，手机用jstl -->
   	<c:forEach var="book" items="${booklist}">
 	  	<tr>
   			<td>${ book.id }</td>

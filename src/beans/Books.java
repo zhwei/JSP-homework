@@ -3,9 +3,9 @@ package beans;
 public class Books {
 	
 	private int id;
-	private String name;
-	private String author;
-	private Double price;
+	private String name;	// 图书名称
+	private String author;	// 图书作者
+	private Double price;	// 图书价格
 	
 	private Integer count;
 	
@@ -47,11 +47,11 @@ public class Books {
 			this.count -= 1;
 		}
 	}
-	public Double getAllPrice(){
+	public Double getAllPrice(){ 	// 获取当前图书的汇总信息   单价*数目
 		return this.count * this.price;
 	}
 	
-	public Boolean equals(Books bo){
+	public Boolean equals(Books bo){	// 重写了判断相等的条件
 		if(bo.getId() == this.getId()){
 			return true;
 		} else {

@@ -52,10 +52,12 @@ public class Login extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			Statement stat = conn.createStatement();
-			response.setContentType("text/html,charset=utf-8");
-			PrintWriter out = response.getWriter();
+
+			// 获取表单提交的数据
 			String username = request.getParameter("username");
 	    	String password = request.getParameter("password");
+	    	
+	    	// 获取数据库中保存的用户密码
 	    	String sql = "select id, password from users where username='"+username+"';";
 	    	ResultSet rs = stat.executeQuery(sql);
 	    	HttpSession session = request.getSession();
@@ -63,21 +65,21 @@ public class Login extends HttpServlet {
 	    	while(rs.next()){
 	    		
 	    		String db_password = rs.getString("password");
-	    		if(db_password.equals(password)){
-	    			Integer user_id = rs.getInt("id");
+	    		if(db_password.equals(password)){	// 如果密码相同则使其登录，将相关信息标记到session
 	    			
-	    			session.setAttribute("logged", true);
-	    			session.setAttribute("user_id", user_id);
-	    			session.setAttribute("username", username);
+	    			Integer user_id = rs.getInt("id"); // -- 获取用户ID
+	    			
+	    			session.setAttribute("logged", true); 	// -- 标记用户已登录
+	    			session.setAttribute("user_id", user_id);	// -- 标记用户id
+	    			session.setAttribute("username", username);	// -- 标记用户名
 	    			
 	    			if(username.equals("admin")){
-	    				// 跳转到管理员界面
-	    				session.setAttribute("admin", true);
-	    				response.sendRedirect("../panel.jsp");
+	    				
+	    				session.setAttribute("admin", true);	// 如果是管理员则标记为管理员
+	    				response.sendRedirect("../panel.jsp");	// 跳转到管理员界面	
 	    			}
 	    			else{
-	    				// 普通用户界面
-	    				response.sendRedirect("../user.jsp");
+	    				response.sendRedirect("../user.jsp");	// 普通用户界面
 	    			}
 	    		}
 	    		else{

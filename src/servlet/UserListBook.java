@@ -65,6 +65,7 @@ public class UserListBook extends HttpServlet {
 			stat = conn.createStatement();
 			String sql = "select id, name, author, price from books";
 			ResultSet rs = stat.executeQuery(sql);
+			// 创建图书列表
 			ArrayList<Books> booklist = new ArrayList<Books>();
 			while(rs.next()){
 				Books book = new Books();
@@ -75,9 +76,10 @@ public class UserListBook extends HttpServlet {
 				booklist.add(book);
 				
 			}
-			request.setAttribute("booklist", booklist);
+			request.setAttribute("booklist", booklist);	 // 将图书列表传往jsp模版
+			// 获取购物车数据
 			ArrayList<Books> cart = (ArrayList<Books>)session.getAttribute("cart");
-			request.setAttribute("cart", cart);
+			request.setAttribute("cart", cart);	// 將购物车数据传到模版
 			
 			request.getRequestDispatcher("../user-listbooks.jsp").forward(request, response);
 			

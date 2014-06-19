@@ -49,26 +49,27 @@ public class CloseCart extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html, charset=utf-8");
+		
+		// 验证是否登录
 		HttpSession session = request.getSession();
 		if((Boolean)session.getAttribute("logged") == null||(Boolean)session.getAttribute("logged") != true){
   			session.setAttribute("alert", "此操作需要登录！");
   			response.sendRedirect("../login.jsp");
   			return;
   		}
+		 //获取购物车
 		ArrayList<Books> booklist = (ArrayList<Books>)session.getAttribute("cart");
 		
+		// 获取动作，用来判断是进行汇总还是写入数据库
 		String action = request.getParameter("action");
-		if(action==null){
-			
+		if(action==null){		// -- 没有指定动作则进行汇总
 			Double sum = 0.0;
 			for(Books book: booklist){
 				sum += book.getAllPrice();
 			}
 			session.setAttribute("cart", booklist);
 			request.setAttribute("sum", sum);
-		} else if(action!=null&&action.equals("submit")){
+		} else if(action!=null&&action.equals("submit")){  // -- submit动作表示将订单写入数据库
 			String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 			try {
 				Class.forName("org.sqlite.JDBC");
@@ -82,33 +83,35 @@ public class CloseCart extends HttpServlet {
 				PreparedStatement ps = null; 
 				ResultSet rs = null; 
 
-				String book_id = request.getParameter("id");
+				Integer uid = (Integer)session.getAttribute("user_id");  // 获取登录用户的id
 				
-				Integer uid = (Integer)session.getAttribute("user_id");
+				// 获取当前时间
 				Date date1 = new Date();
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String date = df.format(date1);
-				
+				// 将该条购买记录插入数据库
 				String sql = "insert into records(uid, date) values(?, ?)";
 				ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
 				System.out.println(uid);
 				ps.setInt(1, uid);
 				ps.setString(2, date);
 				ps.executeUpdate();
+				// -- 获取本条记录的id
 				rs = ps.getGeneratedKeys();
 				rs.next();
 				Integer record_id = rs.getInt(1);
-				System.out.println(record_id);
+				
+				// 将该条购买记录所属条目插入数据库，此处为一对多关系， 一条购买记录对应多条购买条目
 				for(Books book: booklist){
 					String sql1 = "insert into bills(bid, count, rid) values('"+String.valueOf(book.getId())+"', '"+String.valueOf(book.getCount())+"', '"+String.valueOf(record_id)+"')";
 					int i = stat.executeUpdate(sql1);
 				}
-				session.setAttribute("alert", "订单创建成功！");
-				session.removeAttribute("cart");
+				session.setAttribute("alert", "订单创建成功！"); // 显示给用户
+				session.removeAttribute("cart");		// 清空购物车
 				rs.close();
 				ps.close();
 				conn.close();
-				response.sendRedirect("UserListBook");
+				response.sendRedirect("UserListBook");	// 重定向
 				return;
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());

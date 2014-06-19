@@ -45,14 +45,14 @@ public class DeleteBook extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html,charset=utf-8");
+		// 判断是否是管理员
 		HttpSession session = request.getSession();
-		
 		if((Boolean)session.getAttribute("admin") == null||(Boolean)session.getAttribute("logged") != true){
   			session.setAttribute("alert", "您没有权限访问该页面！");
   			response.sendRedirect("login.jsp");
   		}
+		
+		// 连接数据库
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -64,6 +64,8 @@ public class DeleteBook extends HttpServlet {
 			conn = DriverManager.getConnection(dbUrl);
 			Statement stat = conn.createStatement();
 			String book_id = request.getParameter("id");
+			
+			// 获取该图书信息显示给管理员，用来确认是否删除， 避免使用GET删除
 			String sql1 = "select name, author, price from books where id='"+book_id+"'";
 			ResultSet rs = stat.executeQuery(sql1);
 			while(rs.next()){
@@ -73,7 +75,7 @@ public class DeleteBook extends HttpServlet {
 				book.setName(rs.getString("name")); 
 				book.setAuthor(rs.getString("author"));
 				book.setPrice(Double.valueOf(rs.getString("price")));
-				
+				// 传递请求到指定jsp文件
 				request.setAttribute("book", book);
 				request.getRequestDispatcher("../deletebook.jsp").forward(request, response);
 			}

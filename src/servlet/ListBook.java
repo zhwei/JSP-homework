@@ -48,15 +48,14 @@ public class ListBook extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		// 验证是否管理员
 		HttpSession session = request.getSession();
-		
 		if((Boolean)session.getAttribute("admin") == null||(Boolean)session.getAttribute("logged") != true){
   			session.setAttribute("alert", "您没有权限访问该页面！");
   			response.sendRedirect("../login.jsp");
   			return;
   		}
-		
-		response.setContentType("text/html, charset=utf-8");
+		// 连接数据库
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -69,6 +68,8 @@ public class ListBook extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			stat = conn.createStatement();
+			
+			// 从数据库获取全部图书，通过request传递到jsp模版
 			String sql = "select id, name, author, price from books";
 			ResultSet rs = stat.executeQuery(sql);
 			ArrayList<Books> booklist = new ArrayList<Books>();

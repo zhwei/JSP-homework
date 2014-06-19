@@ -42,7 +42,8 @@ public class ChangeCount extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		// 验证是否登录
 		response.setContentType("text/html, charset=utf-8");
 		HttpSession session = request.getSession();
 		if((Boolean)session.getAttribute("logged") == null||(Boolean)session.getAttribute("logged") != true){
@@ -51,15 +52,21 @@ public class ChangeCount extends HttpServlet {
   			return;
   		}
 		
+		// 获取购物车内容
 		ArrayList<Books> booklist = (ArrayList<Books>)session.getAttribute("cart");
+		// 获取待修的图书id
 		String book_id = request.getParameter("id");
+		// 获取操作名称，用来判断是增长还是减少
 		String action = request.getParameter("action");
 		
+		// 循环判断调用增长或减少
 		for(Books book: booklist){
 			if(book.getId()==Integer.parseInt(book_id)){
 				if(action.equals("incr")){
+					// -- 递增数目
 					book.incrCount();
 				} else if(action.equals("decr")) {
+					// -- 递减数目
 					book.decrCount();
 				}
 				
@@ -67,6 +74,7 @@ public class ChangeCount extends HttpServlet {
 		}
 
 		session.setAttribute("cart", booklist);
+		// 重定向
 		response.sendRedirect("UserListBook");
 		return;
 	}

@@ -14,8 +14,8 @@ import beans.*;
 public class Record {
 	
 	private Integer id;
-	private Integer uid;
-	private String date;
+	private Integer uid;	// 本条购买记录所属用户
+	private String date;	// 购买日期
 	
 	public Integer getId() {
 		return id;
@@ -36,7 +36,7 @@ public class Record {
 		this.date = date;
 	}
 	
-	public ArrayList<Bill> getMyBills(){
+	public ArrayList<Bill> getMyBills(){	// 获取属于本条购买记录的所有图书条目 
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -68,7 +68,7 @@ public class Record {
 		return null;
 	}
 	
-	public User getUser(){
+	public User getUser(){		// 获取本条购买记录的所属用户
 		
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {

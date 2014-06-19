@@ -42,6 +42,7 @@ public class UpdateBook extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// 验证权限是否是管理员
 		response.setContentType("text/html,charset=utf-8");
 		HttpSession session = request.getSession();
 		
@@ -49,6 +50,8 @@ public class UpdateBook extends HttpServlet {
   			session.setAttribute("alert", "您没有权限访问该页面！");
   			response.sendRedirect("../login.jsp");
   		}
+		
+		// 连接数据库
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -69,7 +72,7 @@ public class UpdateBook extends HttpServlet {
 				book.setName(rs.getString("name")); 
 				book.setAuthor(rs.getString("author"));
 				book.setPrice(Double.valueOf(rs.getString("price")));
-				
+				// 将图书的原有信息传到jsp模版
 				request.setAttribute("book", book);
 				request.getRequestDispatcher("../createbook.jsp").forward(request, response);
 			}
@@ -93,7 +96,7 @@ public class UpdateBook extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		// 验证权限
 		response.setContentType("text/html,charset=utf-8");
 		HttpSession session = request.getSession();
 		
@@ -102,6 +105,8 @@ public class UpdateBook extends HttpServlet {
   			response.sendRedirect("login.jsp");
   		}
 		
+		
+		// 连接到数据库
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -112,10 +117,12 @@ public class UpdateBook extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			Statement stat = conn.createStatement();
+			// 获取表单数据
 			String name = request.getParameter("name");
 			String author = request.getParameter("author");
 			String price = request.getParameter("price");
 			
+			// 将修改的数据插入到数据库
 			String book_id = request.getParameter("id");
 			String sql = "update books set name='"+name+"',author='"+author+"',price='"+price+"' where id="+book_id;
 			int i = stat.executeUpdate(sql);
