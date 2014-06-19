@@ -26,6 +26,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <hr>
     <%@include file="include/alert.jsp" %>
     <%@include file="include/check_auth_user.jsp" %>
-    
+    <a href="servlet/UserListBook">查看全部图书</a>
   </body>
 </html>

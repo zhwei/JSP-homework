@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +10,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>管理界面</title>
+    <title>订单管理</title>
+    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -18,15 +20,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+
   </head>
   
   <body>
-    <h1>管理界面</h1>
+    <h1>订单管理</h1>
      <a href="servlet/Logout">注销</a>
     <hr>
     <%@include file="include/alert.jsp" %>
     <%@include file="include/check_auth_admin.jsp" %>
-    <a href="servlet/ListBook">管理图书</a>
-    <a href="servlet/RecordManage">管理订单</a>
+    <table border="1">
+  	<thead>
+  		<tr>
+  			<th>编号</th><th>用户</th><th>时间</th>
+  		</tr>
+  	</thead>
+  	<tbody>
+  	<c:forEach var="record" items="${recordlist}">
+	  	<tr>
+  			<td>${ record.id }</td>
+  			<td></td>
+  			<td>${ record.date }</td>
+  		</tr>
+  	</c:forEach>
+
+  	</tbody>
+  </table>
   </body>
 </html>

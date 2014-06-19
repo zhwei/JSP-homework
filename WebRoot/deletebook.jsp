@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +10,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>管理界面</title>
+    <title><c:if test="${ book == null }">添加</c:if><c:if test="${ book != null }">修改</c:if>图书</title>
+    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -18,15 +20,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+
   </head>
   
   <body>
-    <h1>管理界面</h1>
-     <a href="servlet/Logout">注销</a>
+    <h1>是否确认删除图书${ book.name }</h1>
     <hr>
     <%@include file="include/alert.jsp" %>
     <%@include file="include/check_auth_admin.jsp" %>
-    <a href="servlet/ListBook">管理图书</a>
-    <a href="servlet/RecordManage">管理订单</a>
+    
+    <form action="servlet/DeleteBook?id=${ book.id }" method="POST">
+    	<p>《${ book.name }》 -- ${ book.author } -- ${ book.price }元</p>
+    	<p style="display: none;">
+    		<input name="sure" type="text" value="yes" />
+    	</p>
+    	<p>
+    		<input type="submit" value="确认删除">
+    	</p>
+    </form>
   </body>
 </html>

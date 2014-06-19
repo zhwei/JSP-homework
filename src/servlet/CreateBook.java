@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -14,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class Register extends HttpServlet {
+public class CreateBook extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public Register() {
+	public CreateBook() {
 		super();
 	}
 
@@ -44,43 +43,36 @@ public class Register extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
+		response.setContentType("text/html,charset=utf-8");
+		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
+		
+		if((Boolean)session.getAttribute("admin") == null||(Boolean)session.getAttribute("logged") != true){
+  			session.setAttribute("alert", "您没有权限访问该页面！");
+  			response.sendRedirect("login.jsp");
+  		}
 		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			Statement stat = conn.createStatement();
-			String username = request.getParameter("username");
-	        String password1 = request.getParameter("password1");
-	        String password2 = request.getParameter("password2");
-	        String sex = request.getParameter("sex");
-	        
-	        if(password1.equals(password2)==false){
-	        	session.setAttribute("alert", "两次输入密码不相同，请重新注册！");
-	        	response.sendRedirect("../register.jsp");
-	        }
-	        else{
-	              String sql = "insert into users(username, password, sex) values('"+username+"','"+password1+"','"+ sex +"');";
-		          int i = stat.executeUpdate(sql);
-		          if(i==1){
-		        	  session.setAttribute("alert", "注册成功，请登录");
-		        	  response.sendRedirect("../login.jsp");
-		          }
-		          stat.close();
-		          conn.close();
-	        }
+			String name = request.getParameter("name");
+			String author = request.getParameter("author");
+			String price = request.getParameter("price");
+			String sql = "insert into books(name,author,price) values('"+name+"','"+author+"', '"+price+"')";
+			int i = stat.executeUpdate(sql);
+			if(i == 1){
+				session.setAttribute("alert", "成功添加"+String.valueOf(i)+"本图书！");
+				response.sendRedirect("ListBook");
+			}
 		} catch (SQLException e) {
-			if(e.getMessage().equals("column username is not unique")){
-				session.setAttribute("alert", "该用户名已被注册，请重新注册！");
-				response.sendRedirect("../register.jsp");
-			} 
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
