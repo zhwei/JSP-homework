@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Dao.UserDao;
+
 public class Register extends HttpServlet {
 
 	/**
@@ -70,14 +72,13 @@ public class Register extends HttpServlet {
 	        	response.sendRedirect("../register.jsp");
 	        }
 	        else{	// 通过验证则插入数据库
-	              String sql = "insert into users(username, password, sex) values('"+username+"','"+password1+"','"+ sex +"');";
-		          int i = stat.executeUpdate(sql);
-		          if(i==1){
+	        	 int i = UserDao.createUser(username, password1, sex);
+		         if(i==1){
 		        	  session.setAttribute("alert", "注册成功，请登录");
 		        	  response.sendRedirect("../login.jsp");
-		          }
-		          stat.close();
-		          conn.close();
+		         }
+		         stat.close();
+		         conn.close();
 	        }
 		} catch (SQLException e) {
 			if(e.getMessage().equals("column username is not unique")){
