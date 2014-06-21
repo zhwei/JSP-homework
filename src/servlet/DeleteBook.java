@@ -63,6 +63,7 @@ public class DeleteBook extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			Statement stat = conn.createStatement();
+			
 			String book_id = request.getParameter("id");
 			
 			// 获取该图书信息显示给管理员，用来确认是否删除， 避免使用GET删除

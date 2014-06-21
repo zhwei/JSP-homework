@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <c:if test="${billlist!=null}">
   	<h2>详情</h2>
   	<hr />
-	  <table border="1">
+	  <table border="1"> 
 	  	<thead>
 	  		<tr>
 	  			<th>编号</th><th>图书编号</th><th>数目</th>

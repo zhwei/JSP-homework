@@ -43,7 +43,7 @@ public class RemoveFromCart extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		// 验证是否是管理员
+		// 验证是否登录
 		response.setContentType("text/html, charset=utf-8");
 		HttpSession session = request.getSession();
 		if((Boolean)session.getAttribute("logged") == null||(Boolean)session.getAttribute("logged") != true){

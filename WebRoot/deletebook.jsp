@@ -28,6 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <hr>
     <%@include file="include/alert.jsp" %>
     <%@include file="include/check_auth_admin.jsp" %>
+    
     <!-- 删除图书的表单，确认删除则提交 yes到指定路径 -->
     <form action="servlet/DeleteBook?id=${ book.id }" method="POST">
     	<p>《${ book.name }》 -- ${ book.author } -- ${ book.price }元</p>

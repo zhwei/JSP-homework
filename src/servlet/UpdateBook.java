@@ -62,7 +62,9 @@ public class UpdateBook extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(dbUrl);
 			Statement stat = conn.createStatement();
+			
 			String book_id = request.getParameter("id");
+			
 			String sql1 = "select name, author, price from books where id='"+book_id+"'";
 			ResultSet rs = stat.executeQuery(sql1);
 			while(rs.next()){

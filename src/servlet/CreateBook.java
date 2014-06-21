@@ -65,11 +65,12 @@ public class CreateBook extends HttpServlet {
 			String name = request.getParameter("name");
 			String author = request.getParameter("author");
 			String price = request.getParameter("price");
+			
 			String sql = "insert into books(name,author,price) values('"+name+"','"+author+"', '"+price+"')";
 			int i = stat.executeUpdate(sql);
 			if(i == 1){
 				session.setAttribute("alert", "成功添加"+String.valueOf(i)+"本图书！");
-				response.sendRedirect("ListBook");	// 冲形象
+				response.sendRedirect("ListBook");	// 重定向
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

@@ -89,6 +89,7 @@ public class CloseCart extends HttpServlet {
 				Date date1 = new Date();
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String date = df.format(date1);
+				
 				// 将该条购买记录插入数据库
 				String sql = "insert into records(uid, date) values(?, ?)";
 				ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
@@ -96,6 +97,7 @@ public class CloseCart extends HttpServlet {
 				ps.setInt(1, uid);
 				ps.setString(2, date);
 				ps.executeUpdate();
+				
 				// -- 获取本条记录的id
 				rs = ps.getGeneratedKeys();
 				rs.next();
