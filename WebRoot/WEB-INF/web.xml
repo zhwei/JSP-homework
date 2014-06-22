@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+ <context-param>
+  <param-name>DB_URL</param-name>
+  <param-value>d:/db.sqlite</param-value>
+ </context-param>
  <filter>
   <filter-name>EncodeFilter</filter-name>
   <filter-class>filter.EncodeFilter</filter-class>
@@ -27,63 +31,29 @@
   <servlet-name>Logout</servlet-name>
   <servlet-class>servlet.Logout</servlet-class>
  </servlet>
- <servlet>
-  <description>This is the description of my J2EE component</description>
-  <display-name>This is the display name of my J2EE component</display-name>
-  <servlet-name>ListBook</servlet-name>
-  <servlet-class>servlet.ListBook</servlet-class>
- </servlet>
- <servlet>
-  <description>This is the description of my J2EE component</description>
-  <display-name>This is the display name of my J2EE component</display-name>
-  <servlet-name>CreateBook</servlet-name>
-  <servlet-class>servlet.CreateBook</servlet-class>
- </servlet>
- <servlet>
-  <description>This is the description of my J2EE component</description>
-  <display-name>This is the display name of my J2EE component</display-name>
-  <servlet-name>UpdateBook</servlet-name>
-  <servlet-class>servlet.UpdateBook</servlet-class>
- </servlet>
- <servlet>
-  <description>This is the description of my J2EE component</description>
-  <display-name>This is the display name of my J2EE component</display-name>
-  <servlet-name>DeleteBook</servlet-name>
-  <servlet-class>servlet.DeleteBook</servlet-class>
- </servlet>
- <servlet>
-  <servlet-name>UserListBook</servlet-name>
-  <servlet-class>servlet.UserListBook</servlet-class>
- </servlet>
- <servlet>
-  <description>This is the description of my J2EE component</description>
-  <display-name>This is the display name of my J2EE component</display-name>
-  <servlet-name>AddToCart</servlet-name>
-  <servlet-class>servlet.AddToCart</servlet-class>
- </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>RemoveFromCart</servlet-name>
-    <servlet-class>servlet.RemoveFromCart</servlet-class>
+    <servlet-name>DBUtils</servlet-name>
+    <servlet-class>Dao.DBUtils</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>CloseCart</servlet-name>
-    <servlet-class>servlet.CloseCart</servlet-class>
+    <servlet-name>ManageVote</servlet-name>
+    <servlet-class>servlet.ManageVote</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>ChangeCount</servlet-name>
-    <servlet-class>servlet.ChangeCount</servlet-class>
+    <servlet-name>ManageChoice</servlet-name>
+    <servlet-class>servlet.ManageChoice</servlet-class>
   </servlet>
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>RecordManage</servlet-name>
-    <servlet-class>servlet.RecordManage</servlet-class>
+    <servlet-name>UserVoteControl</servlet-name>
+    <servlet-class>servlet.UserVoteControl</servlet-class>
   </servlet>
 
 
@@ -101,45 +71,21 @@
   <servlet-name>Logout</servlet-name>
   <url-pattern>/servlet/Logout</url-pattern>
  </servlet-mapping>
- <servlet-mapping>
-  <servlet-name>ListBook</servlet-name>
-  <url-pattern>/servlet/ListBook</url-pattern>
- </servlet-mapping>
- <servlet-mapping>
-  <servlet-name>CreateBook</servlet-name>
-  <url-pattern>/servlet/CreateBook</url-pattern>
- </servlet-mapping>
- <servlet-mapping>
-  <servlet-name>UpdateBook</servlet-name>
-  <url-pattern>/servlet/UpdateBook</url-pattern>
- </servlet-mapping>
- <servlet-mapping>
-  <servlet-name>DeleteBook</servlet-name>
-  <url-pattern>/servlet/DeleteBook</url-pattern>
- </servlet-mapping>
- <servlet-mapping>
-  <servlet-name>UserListBook</servlet-name>
-  <url-pattern>/servlet/UserListBook</url-pattern>
- </servlet-mapping>
- <servlet-mapping>
-  <servlet-name>AddToCart</servlet-name>
-  <url-pattern>/servlet/AddToCart</url-pattern>
- </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>RemoveFromCart</servlet-name>
-    <url-pattern>/servlet/RemoveFromCart</url-pattern>
+    <servlet-name>DBUtils</servlet-name>
+    <url-pattern>/servlet/DBUtils</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>CloseCart</servlet-name>
-    <url-pattern>/servlet/CloseCart</url-pattern>
+    <servlet-name>ManageVote</servlet-name>
+    <url-pattern>/servlet/ManageVote</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>ChangeCount</servlet-name>
-    <url-pattern>/servlet/ChangeCount</url-pattern>
+    <servlet-name>ManageChoice</servlet-name>
+    <url-pattern>/servlet/ManageChoice</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>RecordManage</servlet-name>
-    <url-pattern>/servlet/RecordManage</url-pattern>
+    <servlet-name>UserVoteControl</servlet-name>
+    <url-pattern>/servlet/UserVoteControl</url-pattern>
   </servlet-mapping>
  <welcome-file-list>
   <welcome-file>index.jsp</welcome-file>

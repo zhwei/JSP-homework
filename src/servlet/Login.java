@@ -11,6 +11,10 @@ import java.sql.*;
 
 import javax.servlet.http.*;
 
+import Dao.DBUtils;
+import Dao.UserDao;
+import beans.User;
+
 public class Login extends HttpServlet {
 
 	/**
@@ -39,62 +43,42 @@ public class Login extends HttpServlet {
 	 * @throws IOException if an error occurred
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException{
 		
-		String dbUrl = "jdbc:sqlite:d:/db.sqlite";
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(dbUrl);
-			Statement stat = conn.createStatement();
+		
 
-			// 获取表单提交的数据
-			String username = request.getParameter("username");
-	    	String password = request.getParameter("password");
-	    	
-	    	// 获取数据库中保存的用户密码
-	    	String sql = "select id, password from users where username='"+username+"';";
-	    	ResultSet rs = stat.executeQuery(sql);
-	    	HttpSession session = request.getSession();
-	    	int rs_count = 0;
-	    	while(rs.next()){
-	    		
-	    		String db_password = rs.getString("password");
-	    		if(db_password.equals(password)){	// 如果密码相同则使其登录，将相关信息标记到session
-	    			
-	    			Integer user_id = rs.getInt("id"); // -- 获取用户ID
-	    			
-	    			session.setAttribute("logged", true); 	// -- 标记用户已登录
-	    			session.setAttribute("user_id", user_id);	// -- 标记用户id
-	    			session.setAttribute("username", username);	// -- 标记用户名
-	    			
-	    			if(username.equals("admin")){
-	    				
-	    				session.setAttribute("admin", true);	// 如果是管理员则标记为管理员
-	    				response.sendRedirect("../panel.jsp");	// 跳转到管理员界面	
-	    			}
-	    			else{
-	    				response.sendRedirect("../user.jsp");	// 普通用户界面
-	    			}
-	    		}
-	    		else{
-	    			session.setAttribute("alert", "登录失败，用户名或密码错误！");
-	    			response.sendRedirect("../login.jsp");
-	    		}
-	    		rs_count += 1;
-	    	}
-	    	if(rs_count==0){
-	    		session.setAttribute("alert", "登录失败，用户名或密码错误！");
-	    		response.sendRedirect("../login.jsp");
-	    	}
+		// 获取表单提交的数据
+		String username = request.getParameter("username");
+    	String password = request.getParameter("password");
+    	
+    	HttpSession session = request.getSession();
+    	
+    	User user = null;
+		try {
+			user = UserDao.getUserByUsername(username);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+//    	System.out.println(user.getUsername());
+		if(user!=null&&user.getPassword().equals(password)){	// 如果密码相同则使其登录，将相关信息标记到session
+			
+			session.setAttribute("logged", true); 	// -- 标记用户已登录
+			session.setAttribute("user_id", user.getId());	// -- 标记用户id
+			session.setAttribute("username", username);	// -- 标记用户名
+			
+			if(username.equals("admin")){
+				
+				session.setAttribute("admin", true);	// 如果是管理员则标记为管理员
+				response.sendRedirect("../panel.jsp");	// 跳转到管理员界面	
+			}
+			else{
+				response.sendRedirect("../user.jsp");	// 普通用户界面
+			}
+		}
+		else{
+			session.setAttribute("alert", "登录失败，用户名或密码错误！");
+			response.sendRedirect("../login.jsp");
 		}
 	}
 

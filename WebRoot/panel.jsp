@@ -27,7 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- 管理员后台首页 -->
     <%@include file="include/alert.jsp" %>
     <%@include file="include/check_auth_admin.jsp" %>
-    <a href="servlet/ListBook">管理图书</a>
-    <a href="servlet/RecordManage">管理订单</a>
+    <a href="servlet/ManageVote">管理投票</a>
   </body>
 </html>

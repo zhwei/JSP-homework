@@ -9,7 +9,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>用户界面</title>
+    <title>是否确认删除</title>
+    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -18,17 +19,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+
   </head>
   
   <body>
-    <h1>用户界面</h1>
-    <!-- 普通用户登录后的首页 -->
-    <a href="servlet/Logout">注销</a>
-    <hr>
-    
-    <%@include file="include/alert.jsp" %>
-    <%@include file="include/check_auth_user.jsp" %>
-    
-    <a href="servlet/UserVoteControl">查看全部投票</a>
+  	<h1>是否确认删除 ${ name }</h1>
+    <form method="POST">
+    	<p style="display: none;">
+    		<input name="sure" type="text" value="yes" />
+    	</p>
+    	<p>
+    		<input type="submit" value="确认删除">
+    	</p>
+    </form>
   </body>
 </html>

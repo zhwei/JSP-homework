@@ -6,6 +6,12 @@ public class User {
 	private String password;	// ÃÜÂë
 	private String sex;			// ĞÔ±ğ
 	
+//	public User(Integer id, String Username, String sex){
+//		this.setId(id);
+//		this.setUsername(username);
+//		this.setSex(sex);
+//	}
+	
 	public Integer getId() {
 		return id;
 	}
