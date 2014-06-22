@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>用户界面</title>
+    <title>管理界面</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -21,14 +21,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <h1>用户界面</h1>
-    <!-- 普通用户登录后的首页 -->
-    <a href="servlet/Logout">注销</a>
+    <h1>管理界面</h1>
+     <a href="servlet/Logout">注销</a>
     <hr>
-    
+    <!-- 管理员后台首页 -->
     <%@include file="include/alert.jsp" %>
-    <%@include file="include/check_auth_user.jsp" %>
-    
-    <a href="servlet/UserVoteControl">查看全部投票</a>
+    <%@include file="include/check_auth_admin.jsp" %>
+    <a href="servlet/ManageVote">管理投票</a>
   </body>
 </html>

@@ -6,7 +6,9 @@ import beans.*;
 import Dao.*;
 
 public class Answer {
-	
+	/*
+	 * CREATE TABLE answers(id INTEGER PRIMARY KEY AUTOINCREMENT, choice_id INTEGER not null,user_id INTEGER not null,vote_id INTEGER not null, ip varchar not null);
+	 */
 	private Integer id;
 	private User user;
 	private Vote vote;

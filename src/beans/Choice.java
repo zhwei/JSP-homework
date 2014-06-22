@@ -6,10 +6,13 @@ import beans.Vote;
 import Dao.VoteDao;
 
 public class Choice {
-
+	/*
+	 * CREATE TABLE choices(id INTEGER PRIMARY KEY AUTOINCREMENT, vote_id INTEGER not null, count INTEGER, description varchar not null);
+	 * */
 	private Integer id;
 	private Vote vote;
 	private String description;
+	private Integer count;
 	
 	public Integer getId() {
 		return id;
@@ -33,4 +36,14 @@ public class Choice {
 		this.description = description;
 	}
 	
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+	public Integer getCount() {
+		return count;
+	}
+	
+	public void incrCount(){
+		this.count += 1;
+	}
 }

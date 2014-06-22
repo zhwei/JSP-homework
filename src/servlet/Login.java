@@ -60,8 +60,8 @@ public class Login extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-		if(user!=null&&user.getUsername().equals(password)){	// 如果密码相同则使其登录，将相关信息标记到session
+//    	System.out.println(user.getUsername());
+		if(user!=null&&user.getPassword().equals(password)){	// 如果密码相同则使其登录，将相关信息标记到session
 			
 			session.setAttribute("logged", true); 	// -- 标记用户已登录
 			session.setAttribute("user_id", user.getId());	// -- 标记用户id

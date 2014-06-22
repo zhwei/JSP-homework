@@ -37,6 +37,27 @@
     <servlet-name>DBUtils</servlet-name>
     <servlet-class>Dao.DBUtils</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ManageVote</servlet-name>
+    <servlet-class>servlet.ManageVote</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ManageChoice</servlet-name>
+    <servlet-class>servlet.ManageChoice</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserVoteControl</servlet-name>
+    <servlet-class>servlet.UserVoteControl</servlet-class>
+  </servlet>
+
+
+
 
  <servlet-mapping>
   <servlet-name>Login</servlet-name>
@@ -53,6 +74,18 @@
   <servlet-mapping>
     <servlet-name>DBUtils</servlet-name>
     <url-pattern>/servlet/DBUtils</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ManageVote</servlet-name>
+    <url-pattern>/servlet/ManageVote</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ManageChoice</servlet-name>
+    <url-pattern>/servlet/ManageChoice</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserVoteControl</servlet-name>
+    <url-pattern>/servlet/UserVoteControl</url-pattern>
   </servlet-mapping>
  <welcome-file-list>
   <welcome-file>index.jsp</welcome-file>

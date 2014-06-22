@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import Dao.DBUtils;
 import beans.Vote;
@@ -26,6 +27,27 @@ public class VoteDao {
     		vote.setDescription(rs.getString("description")); 
     	}
     	return vote;
+	}
+	
+	public static ArrayList<Vote> listVote() throws SQLException{
+		
+		Connection conn = DBUtils.getConnection();
+    	
+    	String sql = "select id, title, description from votes";
+    	Statement stat = conn.createStatement();
+    	ResultSet rs = stat.executeQuery(sql);
+    	ArrayList<Vote> votelist = new ArrayList<Vote>();
+    	
+    	while(rs.next()){
+    		Vote vote = new Vote();
+    		vote.setId(rs.getInt("id"));
+    		vote.setTitle(rs.getString("title"));
+    		vote.setDescription(rs.getString("description"));
+    		votelist.add(vote);
+    	}
+    	
+		return votelist;
+    
 	}
 
 	public static Integer createVote(String title, String description) throws SQLException{
